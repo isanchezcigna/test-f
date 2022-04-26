@@ -1,0 +1,27 @@
+const format = (num)=>{
+    var reg=/\d{1,3}(?=(\d{3})+$)/g; 
+    return (num + '').replace(reg, '$&.');
+}
+
+const dameValor = ()=>{
+    let valor=0;
+    $('.fbra_productItem__priceSummary__normalPrice span:nth-child(4)').each((i,el)=>{
+        let cantidad = parseInt($(el).closest('.fbra_productItem__details').find('.fbra_quantitySpinner__quantity').val());
+        valor += parseInt($(el).text().replaceAll('.', '')) * cantidad;
+    });
+    return valor;
+}
+
+
+const vamos = ()=>{
+    let fValor = dameValor();
+    let cValor = $('.fbra_summaryContainer__itemsCmrTotal__item__value').val();
+    let tValor = fValor + cValor;
+    $('.fbra_summaryContainer__itemsCmrTotal__item__value').val(format(tValor));
+    $('#test_new_element').remove();
+    if(fValor!=0){
+        let cadena = '<div id="test_new_element"><span class="fbra_text fbra_summaryContainer__itemsCmrTotal__item__label fbra_summaryContainer__itemsCmrTotal__item__bolder" >Ahorro Internet</span><span class="fbra_text fbra_summaryContainer__itemsCmrTotal__item__value fbra_summaryContainer__itemsCmrTotal__item__bolder" >-$'+format(fValor)+'</span></div>';
+        $('.fbra_summaryContainer__itemsCmrTotal :first').after(cadena);
+    }
+}
+vamos();
